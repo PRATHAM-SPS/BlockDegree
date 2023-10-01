@@ -2,10 +2,10 @@
   const Xdc3 = require("xdc3");
   const Web3 = require("web3");
   const WebsocketProvider = require('web3-providers-ws'); // Added this line
-
+  
   const xdcWs = require("./constant").WsXinfinMainnet;
   const ethWs = require("./constant").WsEthereumMainnet;
-  const rinkWs = require("./constant").WsRinkebyTestnet;
+  // const rinkWs = require("./constant").WsRinkebyTestnet;
 
   const path = require("path");
 
@@ -17,20 +17,20 @@
 
   console.log("xdcWs:", xdcWs);
   console.log("ethWs:", ethWs);
-  console.log("rinkWs:", rinkWs);
+  // console.log("rinkWs:", rinkWs);
 
   let xdcProvider = new WebsocketProvider(xdcWs); // Add this line
   let ethProvider = new WebsocketProvider(ethWs); // Add this line
-  let rinkProvider = new Web3.providers.WebsocketProvider(rinkWs);
+  // let rinkProvider = new Web3.providers.WebsocketProvider(rinkWs);
 
   // let xdc3 = new Xdc3(xdcProvider);
   // let web3 = new Web3(ethProvider);
   // let web3Rink = new Web3(rinkProvider);
   let xdc3 = new Xdc3(xdcProvider);
   let web3 = new Web3(ethProvider); // Replace the old instance with the new one
-  let web3Rink = new Web3(rinkProvider);
+  // let web3Rink = new Web3(rinkProvider);
 
-  console.log("rinkProvider:", rinkProvider);
+  // console.log("rinkProvider:", rinkProvider);
 
 
   let inReconnXDC = false,
@@ -39,7 +39,7 @@
 
   exports.xdcInst = xdc3;
   exports.ethInst = web3;
-  exports.rinkInst = web3Rink;
+  // exports.rinkInst = web3Rink;
 
   xdcProvider.on("connect", () => {
     if (process.env.enableBlockchainSync === 'true') {
@@ -68,15 +68,15 @@
     ethReconn();
   });
 
-  rinkProvider.on("connect", () => {
-    console.log(`[*] rinkeby instance connected at ${fileName}`);
-  });
-  rinkProvider.on("end", () => {
-    console.log(
-      `[*] rinkeby instance disconnected at ${fileName}, starting reconn...`
-    );
-    ethReconn();
-  });
+  // rinkProvider.on("connect", () => {
+  //   console.log(`[*] rinkeby instance connected at ${fileName}`);
+  // });
+  // rinkProvider.on("end", () => {
+  //   console.log(
+  //     `[*] rinkeby instance disconnected at ${fileName}, starting reconn...`
+  //   );
+  //   ethReconn();
+  // });
 
     connectionHeartbeat();
 
@@ -89,7 +89,7 @@
     try {
       const isActiveXdc = await xdc3.eth.net.isListening();
       const isActiveEth = await web3.eth.net.isListening();
-      const isActiveRink = await web3Rink.eth.net.isListening();
+      // const isActiveRink = await web3Rink.eth.net.isListening();
 
       return { xdc: isActiveXdc, eth: isActiveEth, rink: isActiveRink };
     } catch (e) {
@@ -165,28 +165,28 @@
     }
   }
 
-  function rinkReconn() {
-    try {
-      if (process.env.enableBlockchainSync === 'true') {
-      console.log("[*] reconn rink running");
-      }
-      inReconnRink = true;
-      let currInterval = setInterval(() => {
-        rinkProvider = new Web3.providers.WebsocketProvider(rinkWs);
-        web3Rink = new Web3(rinkProvider);
-        rinkProvider.on("connect", () => {
-          if (process.env.enableBlockchainSync === 'true') {
-          console.log(`[*] rinkeby reconnected to ws at ${fileName}`);
-          }
-          clearInterval(currInterval);
-          exports.ethInst = web3Rink;
-          inReconnRink = false;
-        });
-      }, 5000);
-    } catch (e) {
-      console.log(`exception at ${__filename}.xdcReconn: `, e);
-    }
-  }
+  // function rinkReconn() {
+  //   try {
+  //     if (process.env.enableBlockchainSync === 'true') {
+  //     console.log("[*] reconn rink running");
+  //     }
+  //     inReconnRink = true;
+  //     let currInterval = setInterval(() => {
+  //       rinkProvider = new Web3.providers.WebsocketProvider(rinkWs);
+  //       web3Rink = new Web3(rinkProvider);
+  //       rinkProvider.on("connect", () => {
+  //         if (process.env.enableBlockchainSync === 'true') {
+  //         console.log(`[*] rinkeby reconnected to ws at ${fileName}`);
+  //         }
+  //         clearInterval(currInterval);
+  //         exports.ethInst = web3Rink;
+  //         inReconnRink = false;
+  //       });
+  //     }, 5000);
+  //   } catch (e) {
+  //     console.log("hfhfh");
+  //   }
+  // }
 
   
   function connectionHeartbeat() {
@@ -223,11 +223,11 @@
         console.log(`Connection status RINK: ${isActiveRink}`);
         }
         if (!isActiveRink && inReconnRink === false) {
-          rinkReconn();
+          // rinkReconn();
         }
       } catch (e) {
         if (inReconnRink === false) {
-          rinkReconn();
+          // rinkReconn();
         }
       }
     }, 5000);

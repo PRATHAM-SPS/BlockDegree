@@ -29,7 +29,7 @@ const server = http.createServer(app);
 
 mongoose.set("useCreateIndex", true);
 
-require("./services/passport")(passport);
+// require("./services/passport")(passport);
 
 connectToMongoDB();
 
@@ -69,7 +69,7 @@ const sessionParser = session({
     host: "localhost",
     port: 6379,
   }),
-  secret: "",
+  secret: "4543654654",
   resave: true,
   rolling: true,
   saveUninitialized: true,
@@ -127,8 +127,10 @@ server.listen("3000", async () => {
   donationListener.em.emit("syncPendingBulkCoursePayments");
   updateSiteStats.em.emit("setSiteStats");
   forceReSync();
- 
-  WebSocketServer.initializeWebSocketServer(server, sessionParser); // Pass your server object and sessionParser function
+  const WebSocketServerModule = require("./listeners/websocketServer.js");
+  WebSocketServerModule.initializeWebSocketServer(server, sessionParser);
+  WebSocketServerModule.server(server, sessionParser);
+  // WebSocketServerModule.initializeWebSocketServer(server, sessionParser); // Pass your server object and sessionParser function
 
   console.log("[*] server started");
 
@@ -145,15 +147,15 @@ if (!fs.existsSync("./server/cached")) {
 }
 
 function dynamicMiddleware(req, res, next) {
-  if (req.isAuthenticated()) {
-    if (process.env.ADMIN_ID.split("|").includes(req.user.email)) {
-      express.static(path.join(__dirname, "./admin-new/build"))(req, res, next);
-    } else {
-      res.render("error");
-    }
-  } else {
-    res.render("adminLogin");
-  }
+  // if (req.isAuthenticated()) {
+    // if (process.env.ADMIN_ID.split("|").includes(req.user.email)) {
+      express.static(path.join(__dirname, "./admin-new"))(req, res, next);
+  //   } else {
+  //     res.render("error");
+  //   }
+  // } else {
+  //   res.render("adminLogin");
+  // }
 }
 
 function connectToMongoDB() {
@@ -169,19 +171,17 @@ function connectToMongoDB() {
         setTimeout(connectToMongoDB, 5000);
       });
   } catch (err0) {
-    console.log("[*] error while connecting to mongodb: ", err0);
-    console.log(
-      "[*] error while connecting to mongodb at :",
-      process.env.DATABASE_URI
-    );
-    console.log("[*] Retrying connection to mongodb in 5 seconds...");
-    setTimeout(connectToMongoDB, 5000);
+    // console.log("[*] error while connecting to mongodb: ", err0);
+    // console.log(
+    //   "[*] error while connecting to mongodb at :",
+    //   process.env.DATABASE_URI
+    // );
+    // console.log("[*] Retrying connection to mongodb in 5 seconds...");
+    // setTimeout(connectToMongoDB, 5000);
   }
 }
 // require("./listeners/websocketServer").server(server, sessionParser);
 // require("./listeners/websocketServer.js").server(server, sessionParser);
-// const WebSocketServerModule = require("./listeners/websocketServer.js");
-// WebSocketServerModule.initializeWebSocketServer(server, sessionParser);
 
 
 module.exports = app;

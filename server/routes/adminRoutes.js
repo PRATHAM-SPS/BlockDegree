@@ -3,6 +3,7 @@ const requireAdmin = require("../middleware/requireAdmin");
 const path = require("path");
 const express = require("express");
 const adminPath = path.join(__dirname, "../admin/");
+const adminPath2 = path.join(__dirname, "../admin-new/public/");
 const migrationService = require("../services/migrate");
 const userStatsService = require("../services/userStats");
 const adminServices = require("../services/adminServices");
@@ -18,13 +19,12 @@ module.exports = (app) => {
     res.sendFile("index.html", { root: adminPath });
   });
 
-  app.get("/admin/userStats", requireLogin, requireAdmin, (req, res) => {
+  app.get("/admin/userStats",  (req, res) => {
     res.sendFile("userStats.html", { root: adminPath });
   });
   app.get(
     "/api/getKycUserPic/:path",
-    requireLogin,
-    requireAdmin,
+   
     adminServices.getKycUserPic
   );
 
