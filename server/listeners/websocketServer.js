@@ -41,7 +41,7 @@ exports.initializeWebSocketServer = (server, sessionParser) => {
 
   wss.on("connection", async function (ws, request) {
     console.log("new websocket connection request");
-    
+    let currId = uuid();
     // Your existing code for handling the WebSocket connection goes here
 
     ws.on("message", (msg) => {
@@ -57,6 +57,7 @@ exports.initializeWebSocketServer = (server, sessionParser) => {
   });
 };
 };
+
 //   wss.on("connection", async function (ws, request) {
 //     console.log("new websocket connection request");
 //     let currId = uuid();

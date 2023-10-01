@@ -29,7 +29,7 @@ const server = http.createServer(app);
 
 mongoose.set("useCreateIndex", true);
 
-require("./services/passport")(passport);
+// require("./services/passport")(passport);
 
 connectToMongoDB();
 
@@ -69,7 +69,7 @@ const sessionParser = session({
     host: "localhost",
     port: 6379,
   }),
-  secret: "",
+  secret: "4543654654",
   resave: true,
   rolling: true,
   saveUninitialized: true,
@@ -127,8 +127,10 @@ server.listen("3000", async () => {
   donationListener.em.emit("syncPendingBulkCoursePayments");
   updateSiteStats.em.emit("setSiteStats");
   forceReSync();
- 
-  WebSocketServer.initializeWebSocketServer(server, sessionParser); // Pass your server object and sessionParser function
+  const WebSocketServerModule = require("./listeners/websocketServer.js");
+  WebSocketServerModule.initializeWebSocketServer(server, sessionParser);
+  WebSocketServerModule.server(server, sessionParser);
+  // WebSocketServerModule.initializeWebSocketServer(server, sessionParser); // Pass your server object and sessionParser function
 
   console.log("[*] server started");
 
@@ -180,8 +182,6 @@ function connectToMongoDB() {
 }
 // require("./listeners/websocketServer").server(server, sessionParser);
 // require("./listeners/websocketServer.js").server(server, sessionParser);
-// const WebSocketServerModule = require("./listeners/websocketServer.js");
-// WebSocketServerModule.initializeWebSocketServer(server, sessionParser);
 
 
 module.exports = app;

@@ -1,4 +1,4 @@
-const Web3 = require("web3");
+const {Web3} = require("web3");
 const Xdc3 = require("xdc3");
 const EthereumTx = require("ethereumjs-tx");
 const keythereum = require("keythereum");
@@ -11,11 +11,21 @@ require("dotenv").config();
 
 const tempABI = require("./tempABI");
 
-const web3 = new Web3(
-  new Web3.providers.HttpProvider(process.env.BLOCKCHAIN_URI)
-);
-const contract = new web3.eth.Contract(tempABI, process.env.CONTRACT_ADDR);
+
+try {
+  // Your Ethereum provider setup code
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider(process.env.BLOCKCHAIN_URI)
+    
+  );
+  const contract = new web3.eth.Contract(tempABI, process.env.CONTRACT_ADDR);
 const coinbase_acnt = process.env.DEF_ACCOUNT;
+} 
+catch (error) {
+ console.log("hehheehhehe");
+}
+
+
 
 exports.addToSC = async (examData, email) => {
   console.log("Inside Add to SC");
