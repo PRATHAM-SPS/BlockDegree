@@ -83,6 +83,7 @@
     "sw-precache-webpack-plugin": "0.11.4",
     "sweetalert": "1.0.0",
     "sweetalert-react": "^0.4.10",
+    "uglify": "^0.1.5",
     "url-loader": "0.5.9",
     "web3": "1.2.0",
     "webpack": "3.5.1",
