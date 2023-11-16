@@ -12,6 +12,9 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const  UglifyJsPlugin= require('uglifyjs-webpack-plugin');
+// const TerserPlugin = require('terser-webpack-plugin-legacy');
+
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -280,23 +283,23 @@ module.exports = {
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
     // Minify the code.
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        // Disabled because of an issue with Uglify breaking seemingly valid code:
-        // https://github.com/facebookincubator/create-react-app/issues/2376
-        // Pending further investigation:
-        // https://github.com/mishoo/UglifyJS2/issues/2011
-        comparisons: false,
-      },
-      output: {
-        comments: false,
-        // Turned on because emoji and regex is not minified properly using default
-        // https://github.com/facebookincubator/create-react-app/issues/2488
-        ascii_only: true,
-      },
-      sourceMap: shouldUseSourceMap,
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     // Disabled because of an issue with Uglify breaking seemingly valid code:
+    //     // https://github.com/facebookincubator/create-react-app/issues/2376
+    //     // Pending further investigation:
+    //     // https://github.com/mishoo/UglifyJS2/issues/2011
+    //     comparisons: false,
+    //   },
+    //   output: {
+    //     comments: false,
+    //     // Turned on because emoji and regex is not minified properly using default
+    //     // https://github.com/facebookincubator/create-react-app/issues/2488
+    //     ascii_only: true,
+    //   },
+    //   sourceMap: shouldUseSourceMap,
+    // }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin({
       filename: cssFilename,
@@ -342,7 +345,7 @@ module.exports = {
     // solution that requires the user to opt into importing specific locales.
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), 
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
@@ -353,4 +356,23 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty',
   },
+//   optimization: {
+//     minimizer: [
+//       new UglifyJsPlugin({
+//         test: /\.js$/i, // Modify the test pattern to match your JavaScript files
+//         include: /\/includes/, // Modify or remove the include pattern
+//         exclude: /\/excludes/, // Modify or remove the exclude pattern
+//         cache: true, // Enable file caching
+//         parallel: true, // Enable parallelization for faster build
+//         sourceMap: true, // Generate source maps
+//         // uglifyOptions: {
+//         //   ecma: 6, // Set ECMAScript version (e.g., 5, 6, 7, or 8)
+//         //   warnings: false, // Disable warnings
+//         //   // Add other UglifyJS options here as needed
+//         // },
+//         extractComments: false, // Set to true if you want to extract comments to a separate file
+//         warningsFilter: (source) => true, // Customize warnings filtering as needed
+//       }),
+//     ],
+//   },
 };

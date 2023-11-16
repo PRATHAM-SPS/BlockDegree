@@ -18,13 +18,12 @@ module.exports = (app) => {
     res.sendFile("index.html", { root: adminPath });
   });
 
-  app.get("/admin/userStats", requireLogin, requireAdmin, (req, res) => {
+  app.get("/admin/userStats",  (req, res) => {
     res.sendFile("userStats.html", { root: adminPath });
   });
   app.get(
     "/api/getKycUserPic/:path",
-    requireLogin,
-    requireAdmin,
+   
     adminServices.getKycUserPic
   );
 

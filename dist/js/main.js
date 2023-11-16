@@ -443,7 +443,7 @@ $(window).on("load", function () {
   });
 });
 
-const url = "wss://wss.blockdegree.org ";
+const url = "ws://localhost:3000";
 const connection = new WebSocket(url);
 
 connection.onopen = () => {
