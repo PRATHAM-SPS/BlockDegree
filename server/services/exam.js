@@ -33,6 +33,11 @@ const examTypes = {
     questionName: "questionsWallet",
     coursePayment_id: "course_5",
   },
+  basic_2: {
+    courseName: "examBasic2",
+    questionName: "questionsBasic2",
+    coursePayment_id: "course_6",
+  },
 };
 
 let { readJSONFile } = utils;
@@ -501,14 +506,14 @@ exports.submitExam = async (req, res, next) => {
             }
           );
         }
-      }
+      } 
     }
   }
 };
 
 exports.getBasicExam = (req, res) => {
   readJSONFile(
-    path.join(process.cwd(), "/server/protected/blockchain-basic.json"),
+    path.join(process.cwd(), "/server/protected/blockchain-basic-course-for-engineer.json"),
     (err, json) => {
       if (err != null) {
         return res.render("displayError", {
@@ -755,6 +760,7 @@ exports.getExamStatus = async (req, res) => {
             course_3: user.examData.payment.course_3,
             course_4: user.examData.payment.course_4,
             course_5: user.examData.payment.course_5,
+            course_6: user.examData.payment.course_6,
           },
           json: json,
           video: user.videoSubscription === true,

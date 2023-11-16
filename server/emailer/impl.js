@@ -70,11 +70,12 @@ module.exports = {
       type === "course_2" ||
       type === "course_3" ||
       type === "course_4" || 
-      type === "course_5"
+      type === "course_5" ||
+      type === "course_6"
     ) {
       var courseName;
       if (type === "course_1") {
-        courseName = "blockchain-basic-exam";
+        courseName = "blockchain-basic-course-for-engineer-exam";
       } else if (type === "course_2") {
         courseName = "blockchain-advanced-exam";
       } else if (type === "course_3") {
@@ -83,6 +84,8 @@ module.exports = {
         courseName = "cloud-computing-exam";
       } else if (type === "course_5") {
         courseName = "blockchain-wallet-exam";
+      } else if (type === "course_6") {
+        courseName = "blockchain-basic-2";
       }
       mailOptions = {
         from: "info@blockdegree.org",
